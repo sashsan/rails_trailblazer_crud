@@ -3,7 +3,9 @@ class ListsController < ApplicationController
 
   # GET /lists
   def index
-    @lists = List.all
+    run List::Operation::Index
+
+    render cell(::List::Cell::Index, result['model']), layout: true
   end
 
   # GET /lists/1

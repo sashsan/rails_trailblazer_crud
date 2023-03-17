@@ -11,6 +11,8 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4', '>= 7.0.4.2'
 gem 'sprockets-rails'
+gem 'cells-rails'
+gem 'cells-erb'
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'
 
