@@ -1,20 +1,25 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[ show edit update destroy ]
+  before_action :set_list, only: %i[show edit update destroy]
 
   # GET /lists
   def index
-    run List::Operation::Index
+    run ::List::Operation::Index
 
-    render cell(::List::Cell::Index, result['model']), layout: true
+    render cell(::List::Cell::Index, result[:model]), layout: true
   end
 
   # GET /lists/1
   def show
+    run ::List::Operation::Show
+
+    render cell(::List::Cell::Show, result[:model]), layout: true
   end
 
   # GET /lists/new
   def new
-    @list = List.new
+    run ::List::Operation::Create::Present
+
+    render cell(List::Cell::New, model: @model, form: @form, result: result), layout: true
   end
 
   # GET /lists/1/edit
@@ -23,19 +28,19 @@ class ListsController < ApplicationController
 
   # POST /lists
   def create
-    @list = List.new(list_params)
+    res = ::List::Operation::Create.call(
+      params: params, 'contract.default.extract_key': :list
+    )
 
-    if @list.save
-      redirect_to @list, notice: "List was successfully created."
-    else
-      render :new, status: :unprocessable_entity
-    end
+    return redirect_to lists_path if res.success?
+
+    render cell(List::Cell::New, model: res[:model], result: res), layout: true
   end
 
   # PATCH/PUT /lists/1
   def update
     if @list.update(list_params)
-      redirect_to @list, notice: "List was successfully updated."
+      redirect_to @list, notice: 'List was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -44,17 +49,16 @@ class ListsController < ApplicationController
   # DELETE /lists/1
   def destroy
     @list.destroy
-    redirect_to lists_url, notice: "List was successfully destroyed."
+    redirect_to lists_url, notice: 'List was successfully destroyed.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_list
-      @list = List.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def list_params
-      params.require(:list).permit(:todo)
-    end
+  def set_list
+    @list = List.find(params[:id])
+  end
+
+  def list_params
+    params.require(:list).permit(:todo)
+  end
 end
