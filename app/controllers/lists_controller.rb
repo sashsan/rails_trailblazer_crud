@@ -24,6 +24,9 @@ class ListsController < ApplicationController
 
   # GET /lists/1/edit
   def edit
+    run ::List::Operation::Update::Present
+
+    render cell(List::Cell::Edit, model: @model, form: @form, result: result), layout: true
   end
 
   # POST /lists
@@ -39,11 +42,14 @@ class ListsController < ApplicationController
 
   # PATCH/PUT /lists/1
   def update
-    if @list.update(list_params)
-      redirect_to @list, notice: 'List was successfully updated.'
-    else
-      render :edit, status: :unprocessable_entity
-    end
+    # binding.pry
+    # res = run ::List::Operation::Update::Present do |ctx|
+    #   return redirect_to list_path(ctx[:model].id)
+    # end
+    #
+    # @form = res[:'contract.default']
+    #
+    # render cell(::List::Cell::Edit, model: @model, form: @form), layout: true
   end
 
   # DELETE /lists/1
@@ -53,6 +59,12 @@ class ListsController < ApplicationController
   end
 
   private
+
+  def _run_options(options)
+    options.merge(
+      current_user: 'main'
+    )
+  end
 
   def set_list
     @list = List.find(params[:id])

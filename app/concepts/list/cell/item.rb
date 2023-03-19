@@ -9,11 +9,11 @@ module List::Cell
     end
 
     def detail
-      link_to 'Show', list_path(model.id)
+      button_to 'Show', list_path(model.id), method: :get
     end
 
     def edit
-      link_to 'Edit', edit_list_path(model.id)
+      button_to 'Edit', edit_list_path(model.id), method: :get
     end
 
     def remove

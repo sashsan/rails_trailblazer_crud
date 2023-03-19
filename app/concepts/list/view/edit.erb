@@ -1,0 +1,16 @@
+
+<h1>Editing list - <%= current_list %></h1>
+
+
+<%= simple_form_for modal do |f| %>
+  <%= f.input :todo, label: false %>
+  <%= f.button :submit %>
+<% end %>
+
+<div>
+  <%= current_class %>
+</div>
+
+<div>
+  <%= link_to "Back to lists", lists_path %>
+</div>
