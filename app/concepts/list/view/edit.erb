@@ -1,6 +1,7 @@
 
 <h1>Editing list - <%= current_list %></h1>
 
+<h3><%= "Error: #{model[:error]}" unless model[:error].blank? %></h3>
 
 <%= simple_form_for modal do |f| %>
   <%= f.input :todo, label: false %>

@@ -42,14 +42,14 @@ class ListsController < ApplicationController
 
   # PATCH/PUT /lists/1
   def update
-    # binding.pry
-    # res = run ::List::Operation::Update::Present do |ctx|
-    #   return redirect_to list_path(ctx[:model].id)
-    # end
-    #
-    # @form = res[:'contract.default']
-    #
-    # render cell(::List::Cell::Edit, model: @model, form: @form), layout: true
+    res = run ::List::Operation::Update do |ctx|
+      return redirect_to list_path(ctx[:model].id)
+    end
+
+    form = res[:'contract.default']
+    error = result[:"result.contract.default"].errors[:todo]
+
+    render cell(::List::Cell::Edit, model: @model, form: form, error: error), layout: true
   end
 
   # DELETE /lists/1

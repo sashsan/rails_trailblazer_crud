@@ -11,7 +11,9 @@ module List::Cell
     end
 
     def current_class
-      model[:result][:model].class
+      return model[:result][:model].class unless model[:result].nil?
+
+      self.class
     end
 
     def modal

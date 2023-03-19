@@ -1,11 +1,11 @@
 
 <h1>New list</h1>
 
-<%# flash.each do |type, _| %>
-<!--  <div>-->
-    <%#= type %>
-<!--  </div>-->
-<%# end %>
+<% flash.each do |type, _| %>
+  <div>
+    <%= type %>
+  </div>
+<% end %>
 
 <%= simple_form_for model[:model] do |f| %>
   <%= f.input :todo, placeholder: "New todo for a new List", label: false %>
@@ -13,7 +13,7 @@
 <% end %>
 
 <div>
-  <%#= model[:result][:model].class %>
+  <%= model[:result][:model].class %>
 </div>
 
 <div>
