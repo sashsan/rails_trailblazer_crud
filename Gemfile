@@ -27,6 +27,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.0.0'
   gem 'trailblazer-test'
+  gem 'simplecov', require: false
 end
 
 group :development do
